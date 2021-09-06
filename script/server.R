@@ -1,9 +1,5 @@
+server = function(input, output){
 # GESTÃO - CHAMADOS ----
-#FINAL DO CAEÇALHO----
-
-Sys.setlocale("LC_ALL", "portuguese") #identificação do idioma
-
-
   # INFO-BOXES ----
   output$chamados_abertos_desenvolvimento = renderValueBox({
     ref = chamados %>% filter(`Grupo de operadores`==input$grupo_operador) %>% filter(`Fechado(a)s` == F)
@@ -82,7 +78,7 @@ Sys.setlocale("LC_ALL", "portuguese") #identificação do idioma
   
   output$grafico_soliticacao_cooperativas_ano = renderPlotly({
     
-    ref = chamados %>% filter(`Grupo de operadores`==input$grupo_operador) %>% filter(YEAR == input$anoref) %>% filter(MONTH <= input$mesref)
+    ref = chamados %>% filter(`Grupo de operadores`==input$grupo_operador) %>% filter(YEAR_F == input$anoref) %>% filter(MONTH_F <= input$mesref)
     
     ref = aggregate(`Número do chamado`~`'Cooperativa ou Diretoria' (Solicitante)`, ref, length)
     names(ref) = c('coop', 'Quantidade')
@@ -104,7 +100,7 @@ Sys.setlocale("LC_ALL", "portuguese") #identificação do idioma
   
   output$grafico_soliticacao_cooperativas_mes = renderPlotly({
     
-    ref = chamados %>% filter(`Grupo de operadores`==input$grupo_operador) %>% filter(YEAR == input$anoref) %>% filter(MONTH == input$mesref)
+    ref = chamados %>% filter(`Grupo de operadores`==input$grupo_operador) %>% filter(YEAR_F == input$anoref) %>% filter(MONTH_F == input$mesref)
     
     ref = aggregate(`Número do chamado`~`'Cooperativa ou Diretoria' (Solicitante)`, ref, length)
     names(ref) = c('coop', 'Quantidade')
@@ -261,7 +257,7 @@ Sys.setlocale("LC_ALL", "portuguese") #identificação do idioma
   
   output$chamados_abertos = renderDT({
     ref = chamados %>% filter(`Grupo de operadores`==input$grupo_operador) %>% filter(YEAR == input$anoref) %>% filter(MONTH <= input$mesref) %>% filter(`Fechado(a)s`==F)
-    final_table = data.frame(ref$`Número do chamado`, ref$`Nome do solicitante`, ref$`'Cooperativa ou Diretoria' (Solicitante)`, ref$Operador, ref$Categoria, as.Date(ref$`Data do registro`))
+    final_table = data.frame(ref$`Número do chamado`, ref$`Nome do solicitante`, ref$`'Cooperativa ou Diretoria' (Solicitante)`, ref$Operador, ref$Serviço, as.Date(ref$`Data do registro`))
     
     if(nrow(final_table)==0){
       final_table=data.frame(c("Não houve projetos finalizados no mês"))
@@ -282,7 +278,7 @@ Sys.setlocale("LC_ALL", "portuguese") #identificação do idioma
                               )
               )
     }else{
-      names(final_table)=c('Chamado', 'Solicitante', 'Cliente', 'Técnico', 'Categoria', 'Data de abertura')
+      names(final_table)=c('Chamado', 'Solicitante', 'Cliente', 'Técnico', 'Serviço', 'Data de abertura')
       datatable(final_table, extensions = 'Buttons',
                 options = list(dom = "Blfrtip",
                                buttons = list("copy", list(extend = "collection",
@@ -305,7 +301,7 @@ Sys.setlocale("LC_ALL", "portuguese") #identificação do idioma
   output$chamados_atrasados = renderDT({
     chamados$ATRASADO = (today()-as.Date(chamados$`Data do registro`))
     ref = chamados %>% filter(`Grupo de operadores`==input$grupo_operador) %>% filter(YEAR == input$anoref) %>% filter(MONTH <= input$mesref) %>% filter(`Fechado(a)s`==F) %>% filter(ATRASADO>=30)
-    final_table = data.frame(ref$`Número do chamado`, ref$`Nome do solicitante`, ref$`'Cooperativa ou Diretoria' (Solicitante)`, ref$Operador, ref$Categoria, as.Date(ref$`Data do registro`))
+    final_table = data.frame(ref$`Número do chamado`, ref$`Nome do solicitante`, ref$`'Cooperativa ou Diretoria' (Solicitante)`, ref$Operador, ref$Serviço, as.Date(ref$`Data do registro`))
     
     if(nrow(final_table)==0){
       final_table=data.frame(c("Não houve projetos finalizados no mês"))
@@ -326,7 +322,7 @@ Sys.setlocale("LC_ALL", "portuguese") #identificação do idioma
                 )
       )
     }else{
-      names(final_table)=c('Chamado', 'Solicitante', 'Cliente', 'Técnico', 'Categoria', 'Data de abertura')
+      names(final_table)=c('Chamado', 'Solicitante', 'Cliente', 'Técnico', 'Serviço', 'Data de abertura')
       datatable(final_table, extensions = 'Buttons',
                 options = list(dom = "Blfrtip",
                                buttons = list("copy", list(extend = "collection",
@@ -344,4 +340,5 @@ Sys.setlocale("LC_ALL", "portuguese") #identificação do idioma
       )
     }
   })
-  
+    
+}#fecha chaves do server (servidor)
