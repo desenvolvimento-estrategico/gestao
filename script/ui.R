@@ -1,3 +1,26 @@
+library(shiny)
+library(shinydashboard)
+#library(shinyBS)
+#library(shinycssloaders)
+#library(shinyjs)
+#library(shinyWidgets)
+library(readxl)
+library(dplyr)
+library(tidyr)
+library(plotly)
+library(lubridate)
+#library(circlepackeR)
+library(data.tree)
+library(ggplot2)
+#library(shiny.i18n)
+library(DT)
+library(reactable)
+library(leaflet)
+library(httr)
+library(viridis)
+library(dashboardthemes)
+library(shinycustomloader)
+
 url1<-'https://github.com/desenvolvimento-estrategico/gestao/raw/main/2015_-_Desenvolvimento_Estrate55.xlsx' #baixando a planilha
 GET(url1, write_disk(tf <- tempfile(fileext = ".xlsx"))) #criando arquivo temporário
 #separando as colunas com varias informações
@@ -91,5 +114,5 @@ dashboardPage(skin = "green",
                      
                    )
                    )
-)
+)#FINALIZAÇÃO DO DASHBOARD PAGES
   
