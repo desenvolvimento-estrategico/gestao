@@ -1,31 +1,5 @@
-library(shiny)
-library(shinydashboard)
-#library(shinyBS)
-#library(shinycssloaders)
-#library(shinyjs)
-#library(shinyWidgets)
-library(readxl)
-library(dplyr)
-library(tidyr)
-library(plotly)
-library(lubridate)
-#library(circlepackeR)
-library(data.tree)
-library(ggplot2)
-#library(shiny.i18n)
-library(DT)
-library(reactable)
-library(leaflet)
-library(httr)
-library(viridis)
-library(dashboardthemes)
-library(shinycustomloader)
-
-
-
-
   # DASHBOARD SIDE BAR ----
-ui = dashboardPage(skin = "green",
+dashboardPage(skin = "green",
                    dashboardHeader(title = span(img(src='https://www.sicoobcoopvale.com.br/image/pinlogo.png', width = 40), "Desenvolvimento")),
                    dashboardSidebar(
                      sidebarMenu(
