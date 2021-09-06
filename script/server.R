@@ -62,7 +62,6 @@ chamados = chamados %>% filter(`Grupo de operadores` %in% c('2015 - Uni Corretor
 
 Sys.setlocale("LC_ALL", "portuguese") #identificação do idioma
 
-function(input, output){
 # GESTÃO - CHAMADOS ----
   # INFO-BOXES ----
   output$chamados_abertos_desenvolvimento = renderValueBox({
@@ -404,10 +403,4 @@ function(input, output){
       )
     }
   })
-  
-  
-
-  
-  
-}#fecha chaves do server (servidor)
   
