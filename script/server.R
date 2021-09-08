@@ -137,7 +137,7 @@ server = function(input, output){
   output$chamados_fechados_mes = renderValueBox({
     ref = chamados %>% filter(`Grupo de operadores`==input$grupo_operador) %>% filter(YEAR_F == input$anoref) %>% filter(MONTH_F==input$mesref) %>% filter(`Fechado(a)s` == T)
     value=nrow(ref)
-    valueBox(value, "Chamados Fechados (no ano)", icon = icon("list"), color = "navy")
+    valueBox(value, "Chamados Fechados (no mês)", icon = icon("list"), color = "navy")
   })
   
   output$avaliacao_media = renderValueBox({
