@@ -94,7 +94,7 @@ ui = dashboardPage(skin = "green",
                    dashboardBody(fluidPage(
                      tabItems(
                        tabItem(tabName = 'overview', h2("Detalhamento dos chamados atendidos pelo Desenvolvimento Estratégico"),
-                               fluidRow(valueBoxOutput("chamados_abertos_desenvolvimento"), valueBoxOutput('chamados_fechados'), valueBoxOutput("avaliacao_media"), valueBoxOutput("tempo_medio_chamados"), valueBoxOutput("%_chamados_fechados")),
+                               fluidRow(valueBoxOutput("chamados_abertos_desenvolvimento"), valueBoxOutput('chamados_fechados_mes'), valueBoxOutput('chamados_fechados'), valueBoxOutput("avaliacao_media"), valueBoxOutput("tempo_medio_chamados"), valueBoxOutput("%_chamados_fechados")),
                                fluidRow(wellPanel(h3("Quantidade de chamados abertos por mês"), plotlyOutput("grafico_chamados_abertos"))),
                                box(title = "Cooperativas que mais solicitaram no ano", solidHeader = TRUE, collapsible = TRUE, status = "success", plotlyOutput("grafico_soliticacao_cooperativas_ano")),
                                box(title = "Cooperativas que mais solicitaram no mês", solidHeader = TRUE, collapsible = TRUE, status = "success", plotlyOutput("grafico_soliticacao_cooperativas_mes")),
@@ -130,6 +130,12 @@ server = function(input, output){
   
   output$chamados_fechados = renderValueBox({
     ref = chamados %>% filter(`Grupo de operadores`==input$grupo_operador) %>% filter(`Fechado(a)s` == T)
+    value=nrow(ref)
+    valueBox(value, "Chamados Fechados (no ano)", icon = icon("list"), color = "navy")
+  })
+  
+  output$chamados_fechados_mes = renderValueBox({
+    ref = chamados %>% filter(`Grupo de operadores`==input$grupo_operador) %>% filter(YEAR_F == input$anoref) %>% filter(MONTH_F==input$mesref) %>% filter(`Fechado(a)s` == T)
     value=nrow(ref)
     valueBox(value, "Chamados Fechados (no ano)", icon = icon("list"), color = "navy")
   })
