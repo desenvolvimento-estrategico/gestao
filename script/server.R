@@ -125,19 +125,19 @@ server = function(input, output){
   output$chamados_abertos_desenvolvimento = renderValueBox({
     ref = chamados %>% filter(`Grupo de operadores`==input$grupo_operador) %>% filter(`Fechado(a)s` == F)
     value=nrow(ref)
-    valueBox(value, "Chamados não fechados (em atendimento)", icon = icon("list"), color = "orange")
+    valueBox(value, "Chamados não fechados (em atendimento)", icon = icon("list"), color = "olive")
   })
   
   output$chamados_fechados = renderValueBox({
     ref = chamados %>% filter(`Grupo de operadores`==input$grupo_operador) %>% filter(`Fechado(a)s` == T)
     value=nrow(ref)
-    valueBox(value, "Chamados Fechados (no ano)", icon = icon("list"), color = "navy")
+    valueBox(value, "Chamados Fechados (no ano)", icon = icon("list"), color = "olive")
   })
   
   output$chamados_fechados_mes = renderValueBox({
     ref = chamados %>% filter(`Grupo de operadores`==input$grupo_operador) %>% filter(YEAR_F == input$anoref) %>% filter(MONTH_F==input$mesref) %>% filter(`Fechado(a)s` == T)
     value=nrow(ref)
-    valueBox(value, "Chamados Fechados (no mês)", icon = icon("list"), color = "navy")
+    valueBox(value, "Chamados Fechados (no mês)", icon = icon("list"), color = "olive")
   })
   
   output$avaliacao_media = renderValueBox({
@@ -152,14 +152,14 @@ server = function(input, output){
     vector_days = vector_days %>% replace(vector_days==31,0)
     vector_hours = hour(ref$`Tempo de processamento efetivo`)
     value = round(mean(vector_days)*(24/9)+mean(vector_hours)/9,1)
-    valueBox(value, "Tempo médio até finalização do chamado (dias úteis)", icon = icon("clock"), color = "olive")
+    valueBox(value, "Tempo médio até finalização do chamado (dias úteis)", icon = icon("clock"), color = "green")
   })
   
   output$`%_chamados_fechados` = renderValueBox({
     chamados_fechados = chamados %>% filter(YEAR_F==input$anoref) %>% filter(MONTH_F==input$mesref) %>% filter(`Grupo de operadores`==input$grupo_operador) %>% filter(`Fechado(a)s` == T) %>% nrow()
     chamados_avaliados = chamados %>% filter(YEAR_F==input$anoref) %>% filter(MONTH_F==input$mesref) %>% filter(`Grupo de operadores`==input$grupo_operador) %>% drop_na(Avaliação) %>% nrow()
     value=paste(round((chamados_avaliados/chamados_fechados)*100,2), '%', sep = '')
-    valueBox(value, "% de Chamados Avaliados (no mês)", icon = icon("percent"), color = "blue")
+    valueBox(value, "% de Chamados Avaliados (no mês)", icon = icon("percent"), color = "green")
   })
   
   
