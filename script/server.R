@@ -297,7 +297,7 @@ server = function(input, output){
   #DATA TABLE - CHAMADOS NOTA 1, 2 E 3 ----
   output$chamados_nota_1_2_3 = renderDT({
     ref = chamados %>% filter(`Grupo de operadores`==input$grupo_operador) %>% filter(YEAR_F == input$anoref) %>% filter(MONTH_F == input$mesref) %>% filter(`Fechado(a)s`==T) %>% filter(Avaliação<=3)
-    final_table = data.frame(ref$`Número do chamado`, ref$`Nome do solicitante`, ref$`'Cooperativa ou Diretoria' (Solicitante)`, ref$Operador, ref$Avaliação, as.Date(ref$`Data de fechamento`))
+    final_table = data.frame(ref$`Número do chamado`, ref$`Nome do solicitante`, ref$`'Cooperativa ou Diretoria' (Solicitante)`, ref$Operador, ref$Avaliação, as.Date(ref$`Data de fechamento`), ref$`Explicação das avaliações`)
     
     if(nrow(final_table)==0){
       final_table=data.frame(c("Não houve chamados nota 1, 2 ou 3 registrados"))
@@ -318,7 +318,7 @@ server = function(input, output){
                 )
       )
     }else{
-      names(final_table)=c('Chamado', 'Solicitante', 'Cliente', 'Técnico', 'Avaliação', 'Data de conclusão')
+      names(final_table)=c('Chamado', 'Solicitante', 'Cliente', 'Técnico', 'Avaliação', 'Data de conclusão', 'Comentário')
       datatable(final_table, extensions = 'Buttons',
                 options = list(dom = "Blfrtip",
                                buttons = list("copy", list(extend = "collection",
@@ -340,7 +340,7 @@ server = function(input, output){
   #DATA TABLE - CHAMADOS NOTA 4 e 5 ----
   output$chamados_nota_4_5 = renderDT({
     ref = chamados %>% filter(`Grupo de operadores`==input$grupo_operador) %>% filter(YEAR_F == input$anoref) %>% filter(MONTH_F == input$mesref) %>% filter(`Fechado(a)s`==T) %>% filter(Avaliação>=4)
-    final_table = data.frame(ref$`Número do chamado`, ref$`Nome do solicitante`, ref$`'Cooperativa ou Diretoria' (Solicitante)`, ref$Operador, ref$Avaliação, as.Date(ref$`Data de fechamento`))
+    final_table = data.frame(ref$`Número do chamado`, ref$`Nome do solicitante`, ref$`'Cooperativa ou Diretoria' (Solicitante)`, ref$Operador, ref$Avaliação, as.Date(ref$`Data de fechamento`), ref$`Explicação das avaliações`)
     
     if(nrow(final_table)==0){
       final_table=data.frame(c("Não houve chamados nota 4 ou 5 registrados"))
@@ -361,7 +361,7 @@ server = function(input, output){
                 )
       )
     }else{
-      names(final_table)=c('Chamado', 'Solicitante', 'Cliente', 'Técnico', 'Avaliação', 'Data de conclusão')
+      names(final_table)=c('Chamado', 'Solicitante', 'Cliente', 'Técnico', 'Avaliação', 'Data de conclusão', 'Comentário')
       datatable(final_table, extensions = 'Buttons',
                 options = list(dom = "Blfrtip",
                                buttons = list("copy", list(extend = "collection",
