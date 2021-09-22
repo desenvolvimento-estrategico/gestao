@@ -167,7 +167,7 @@ server = function(input, output){
     chamados_avaliados = chamados %>% filter(YEAR_F==input$anoref) %>% filter(MONTH_F==input$mesref) %>% filter(`Grupo de operadores`==input$grupo_operador) %>% drop_na(Avaliação) %>% nrow()
     value=paste(round((chamados_avaliados/chamados_fechados)*100,2), '%', sep = '')
     valueBox(value, "% de Chamados Avaliados (no mês)", icon = icon("percent"), color = "purple")
-  
+  })
   
   # GRÁFICO DE LINHAS - CHAMADOS ABERTOS
   output$grafico_chamados_abertos = renderPlotly({ 
