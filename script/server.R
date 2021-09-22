@@ -94,7 +94,7 @@ ui = dashboardPage(skin = "green",
                    dashboardBody(fluidPage(
                      tabItems(
                        tabItem(tabName = 'overview', h2("Detalhamento dos chamados atendidos pelo Desenvolvimento Estratégico"),
-                               fluidRow(valueBoxOutput("chamados_abertos_desenvolvimento"), valueBoxOutput('chamados_fechados_mes'), valueBoxOutput('chamados_fechados'), valueBoxOutput("avaliacao_media"), valueBoxOutput("tempo_medio_chamados"), valueBoxOutput("%_chamados_fechados"), valueBoxOutput("%_chamados_3_4_5")),
+                               fluidRow(valueBoxOutput("chamados_abertos_desenvolvimento"), valueBoxOutput('chamados_fechados_mes'), valueBoxOutput('chamados_fechados'), valueBoxOutput("avaliacao_media"), valueBoxOutput("%_chamados_3_4_5"), valueBoxOutput("%_chamados_fechados"), valueBoxOutput("%_chamados_3_4_5"), valueBoxOutput("tempo_medio_chamados"), valueBoxOutput("Chamados_entregues_sla")),
                                fluidRow(wellPanel(h3("Quantidade de chamados abertos por mês"), plotlyOutput("grafico_chamados_abertos"))),
                                box(title = "Cooperativas que mais solicitaram no ano", solidHeader = TRUE, collapsible = TRUE, status = "success", plotlyOutput("grafico_soliticacao_cooperativas_ano")),
                                box(title = "Cooperativas que mais solicitaram no mês", solidHeader = TRUE, collapsible = TRUE, status = "success", plotlyOutput("grafico_soliticacao_cooperativas_mes")),
@@ -146,15 +146,6 @@ server = function(input, output){
     valueBox(value, "Nota Média (no mês)", icon = icon("balance-scale-right"), color = "green")
   })
   
-  output$tempo_medio_chamados = renderValueBox({
-    ref = chamados %>% filter(`Grupo de operadores`==input$grupo_operador) %>% filter(YEAR_F == input$anoref) %>% filter(MONTH_F == input$mesref) %>% filter(`Fechado(a)s`==T)
-    vector_days = day(ref$`Tempo de processamento efetivo`)
-    vector_days = vector_days %>% replace(vector_days==31,0)
-    vector_hours = hour(ref$`Tempo de processamento efetivo`)
-    value = round(mean(vector_days)*(24/9)+mean(vector_hours)/9,1)
-    valueBox(value, "Tempo médio até finalização do chamado (dias úteis)", icon = icon("clock"), color = "green")
-  })
-  
   output$`%_chamados_fechados` = renderValueBox({
     chamados_fechados = chamados %>% filter(YEAR_F==input$anoref) %>% filter(MONTH_F==input$mesref) %>% filter(`Grupo de operadores`==input$grupo_operador) %>% filter(`Fechado(a)s` == T) %>% nrow()
     chamados_avaliados = chamados %>% filter(YEAR_F==input$anoref) %>% filter(MONTH_F==input$mesref) %>% filter(`Grupo de operadores`==input$grupo_operador) %>% drop_na(Avaliação) %>% nrow()
@@ -166,7 +157,25 @@ server = function(input, output){
     chamados_fechados = chamados %>% filter(YEAR_F==input$anoref) %>% filter(MONTH_F==input$mesref) %>% filter(`Grupo de operadores`==input$grupo_operador) %>% filter(`Fechado(a)s` == T) %>% filter(Avaliação>=1) %>% nrow()
     chamados_avaliados_3_4_5 = chamados %>% filter(YEAR_F==input$anoref) %>% filter(MONTH_F==input$mesref) %>% filter(`Grupo de operadores`==input$grupo_operador) %>% filter(Avaliação>=3) %>% nrow()
     value=paste(round((chamados_avaliados_3_4_5/chamados_fechados)*100,2), '%', sep = '')
-    valueBox(value, "% de Chamados Avaliados com nota 3, 4 e 5 (no mês)", icon = icon("clipboard"), color = "purple")
+    valueBox(value, "% de Chamados Avaliados com nota 3, 4 e 5 (no mês)", icon = icon("clipboard"), color = "green")
+  })
+  
+  output$tempo_medio_chamados = renderValueBox({
+    ref = chamados %>% filter(`Grupo de operadores`==input$grupo_operador) %>% filter(YEAR_F == input$anoref) %>% filter(MONTH_F == input$mesref) %>% filter(`Fechado(a)s`==T)
+    vector_days = day(ref$`Tempo de processamento efetivo`)
+    vector_days = vector_days %>% replace(vector_days==31,0)
+    vector_hours = hour(ref$`Tempo de processamento efetivo`)
+    value = round(mean(vector_days)*(24/9)+mean(vector_hours)/9,1)
+    valueBox(value, "Tempo médio até finalização do chamado (dias úteis)", icon = icon("clock"), color = "purple")
+  })
+
+  output$Chamados_entregues_sla = renderValueBox({
+    ref = chamados %>% filter(`Grupo de operadores`==input$grupo_operador) %>% filter(YEAR_F == input$anoref) %>% filter(MONTH_F == input$mesref) %>% filter(`Fechado(a)s`==T)
+    vector_days = day(ref$`Tempo de processamento efetivo`)
+    vector_days = vector_days %>% replace(vector_days==31,0)
+    vector_hours = hour(ref$`Tempo de processamento efetivo`)
+    value = round(mean(vector_days)*(24/9)+mean(vector_hours)/9,1)
+    valueBox(value, "Chamados entregues dentro do SLA (dias úteis)", icon = icon("clock"), color = "purple")
   })
   
   # GRÁFICO DE LINHAS - CHAMADOS ABERTOS
