@@ -94,7 +94,7 @@ ui = dashboardPage(skin = "green",
                    dashboardBody(fluidPage(
                      tabItems(
                        tabItem(tabName = 'overview', h2("Detalhamento dos chamados atendidos pelo Desenvolvimento Estratégico"),
-                               fluidRow(valueBoxOutput("chamados_abertos_desenvolvimento"), valueBoxOutput('chamados_fechados_mes'), valueBoxOutput('chamados_fechados'), valueBoxOutput("avaliacao_media"), valueBoxOutput("tempo_medio_chamados"), valueBoxOutput("%_chamados_fechados")),
+                               fluidRow(valueBoxOutput("chamados_abertos_desenvolvimento"), valueBoxOutput('chamados_fechados_mes'), valueBoxOutput('chamados_fechados'), valueBoxOutput("avaliacao_media"), valueBoxOutput("tempo_medio_chamados"), valueBoxOutput("%_chamados_fechados"), valueBoxOutput("%_chamados_3_4_5")),
                                fluidRow(wellPanel(h3("Quantidade de chamados abertos por mês"), plotlyOutput("grafico_chamados_abertos"))),
                                box(title = "Cooperativas que mais solicitaram no ano", solidHeader = TRUE, collapsible = TRUE, status = "success", plotlyOutput("grafico_soliticacao_cooperativas_ano")),
                                box(title = "Cooperativas que mais solicitaram no mês", solidHeader = TRUE, collapsible = TRUE, status = "success", plotlyOutput("grafico_soliticacao_cooperativas_mes")),
@@ -162,6 +162,11 @@ server = function(input, output){
     valueBox(value, "% de Chamados Avaliados (no mês)", icon = icon("percent"), color = "green")
   })
   
+  output$`%_chamados_3_4_5` = renderValueBox({
+    chamados_fechados = chamados %>% filter(YEAR_F==input$anoref) %>% filter(MONTH_F==input$mesref) %>% filter(`Grupo de operadores`==input$grupo_operador) %>% filter(`Fechado(a)s` == T) %>% nrow()
+    chamados_avaliados = chamados %>% filter(YEAR_F==input$anoref) %>% filter(MONTH_F==input$mesref) %>% filter(`Grupo de operadores`==input$grupo_operador) %>% drop_na(Avaliação) %>% nrow()
+    value=paste(round((chamados_avaliados/chamados_fechados)*100,2), '%', sep = '')
+    valueBox(value, "% de Chamados Avaliados (no mês)", icon = icon("percent"), color = "purple")
   
   
   # GRÁFICO DE LINHAS - CHAMADOS ABERTOS
