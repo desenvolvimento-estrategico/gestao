@@ -94,7 +94,7 @@ ui = dashboardPage(skin = "green",
                    dashboardBody(fluidPage(
                      tabItems(
                        tabItem(tabName = 'overview', h2("Detalhamento dos chamados atendidos pelo Desenvolvimento Estratégico"),
-                               fluidRow(valueBoxOutput("chamados_abertos_desenvolvimento"), valueBoxOutput('chamados_fechados_mes'), valueBoxOutput('chamados_fechados'), valueBoxOutput("avaliacao_media"), valueBoxOutput("%_chamados_3_4_5"), valueBoxOutput("%_chamados_fechados"), valueBoxOutput("%_chamados_3_4_5"), valueBoxOutput("tempo_medio_chamados"), valueBoxOutput("Chamados_entregues_sla")),
+                               fluidRow(valueBoxOutput("chamados_abertos_desenvolvimento"), valueBoxOutput('chamados_fechados_mes'), valueBoxOutput('chamados_fechados'), valueBoxOutput("avaliacao_media"), valueBoxOutput("%_chamados_3_4_5"), valueBoxOutput("%_chamados_fechados"), valueBoxOutput("%_chamados_3_4_5"), valueBoxOutput("tempo_medio_chamados")),
                                fluidRow(wellPanel(h3("Quantidade de chamados abertos por mês"), plotlyOutput("grafico_chamados_abertos"))),
                                box(title = "Cooperativas que mais solicitaram no ano", solidHeader = TRUE, collapsible = TRUE, status = "success", plotlyOutput("grafico_soliticacao_cooperativas_ano")),
                                box(title = "Cooperativas que mais solicitaram no mês", solidHeader = TRUE, collapsible = TRUE, status = "success", plotlyOutput("grafico_soliticacao_cooperativas_mes")),
@@ -167,15 +167,6 @@ server = function(input, output){
     vector_hours = hour(ref$`Tempo de processamento efetivo`)
     value = round(mean(vector_days)*(24/9)+mean(vector_hours)/9,1)
     valueBox(value, "Tempo médio até finalização do chamado (dias úteis)", icon = icon("clock"), color = "purple")
-  })
-
-  output$Chamados_entregues_sla = renderValueBox({
-    ref = chamados %>% filter(`Grupo de operadores`==input$grupo_operador) %>% filter(YEAR_F == input$anoref) %>% filter(MONTH_F == input$mesref) %>% filter(`Fechado(a)s`==T)
-    vector_days = day(ref$`Tempo de processamento efetivo`)
-    vector_days = vector_days %>% replace(vector_days==31,0)
-    vector_hours = hour(ref$`Tempo de processamento efetivo`)
-    value = round(mean(vector_days)*(24/9)+mean(vector_hours)/9,1)
-    valueBox(value, "Chamados entregues dentro do SLA (dias úteis)", icon = icon("clock"), color = "purple")
   })
   
   # GRÁFICO DE LINHAS - CHAMADOS ABERTOS
