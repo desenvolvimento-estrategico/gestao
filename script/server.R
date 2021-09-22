@@ -163,10 +163,10 @@ server = function(input, output){
   })
   
   output$`%_chamados_3_4_5` = renderValueBox({
-    chamados_fechados = chamados %>% filter(YEAR_F==input$anoref) %>% filter(MONTH_F==input$mesref) %>% filter(`Grupo de operadores`==input$grupo_operador) %>% filter(`Fechado(a)s` == T) %>% nrow()
-    chamados_avaliados = chamados %>% filter(YEAR_F==input$anoref) %>% filter(MONTH_F==input$mesref) %>% filter(`Grupo de operadores`==input$grupo_operador) %>% drop_na(Avaliação) %>% nrow()
-    value=paste(round((chamados_avaliados/chamados_fechados)*100,2), '%', sep = '')
-    valueBox(value, "% de Chamados Avaliados (no mês)", icon = icon("percent"), color = "purple")
+    chamados_fechados = chamados %>% filter(YEAR_F==input$anoref) %>% filter(MONTH_F==input$mesref) %>% filter(`Grupo de operadores`==input$grupo_operador) %>% filter(`Fechado(a)s` == T) %>% filter(Avaliação>=1) %>% nrow()
+    chamados_avaliados_3_4_5 = chamados %>% filter(YEAR_F==input$anoref) %>% filter(MONTH_F==input$mesref) %>% filter(`Grupo de operadores`==input$grupo_operador) %>% filter(Avaliação>=3) %>% nrow()
+    value=paste(round((chamados_avaliados_3_4_5/chamados_fechados)*100,2), '%', sep = '')
+    valueBox(value, "% de Chamados Avaliados com nota 3, 4 e 5 (no mês)", icon = icon("clipboard"), color = "purple")
   })
   
   # GRÁFICO DE LINHAS - CHAMADOS ABERTOS
