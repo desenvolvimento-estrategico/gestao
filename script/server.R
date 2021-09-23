@@ -94,7 +94,7 @@ ui = dashboardPage(skin = "green",
                    dashboardBody(fluidPage(
                      tabItems(
                        tabItem(tabName = 'overview', h2("Detalhamento dos chamados atendidos pelo Desenvolvimento Estratégico"),
-                               fluidRow(valueBoxOutput("chamados_abertos_desenvolvimento"), valueBoxOutput('chamados_fechados_mes'), valueBoxOutput('chamados_fechados'), valueBoxOutput("avaliacao_media"), valueBoxOutput("%_chamados_3_4_5"), valueBoxOutput("%_chamados_fechados"), valueBoxOutput("%_chamados_3_4_5"), valueBoxOutput("tempo_medio_chamados")),
+                               fluidRow(valueBoxOutput("chamados_abertos_desenvolvimento"), valueBoxOutput('chamados_fechados_mes'), valueBoxOutput('chamados_fechados'), valueBoxOutput("avaliacao_media"), valueBoxOutput("%_chamados_3_4_5"), valueBoxOutput("%_chamados_fechados"), valueBoxOutput("tempo_medio_chamados")),
                                fluidRow(wellPanel(h3("Quantidade de chamados abertos por mês"), plotlyOutput("grafico_chamados_abertos"))),
                                box(title = "Cooperativas que mais solicitaram no ano", solidHeader = TRUE, collapsible = TRUE, status = "success", plotlyOutput("grafico_soliticacao_cooperativas_ano")),
                                box(title = "Cooperativas que mais solicitaram no mês", solidHeader = TRUE, collapsible = TRUE, status = "success", plotlyOutput("grafico_soliticacao_cooperativas_mes")),
